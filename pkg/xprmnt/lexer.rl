@@ -1,5 +1,10 @@
 package xprmnt
 
+import (
+    "log"
+    "os"
+)
+
 %%{
     machine lexer;
 
@@ -14,7 +19,16 @@ package xprmnt
     write data;
 
     main := |*
-        '+'           => { l.p = p + 1; return Token{Type: PLUS, Value: "+"} };
+        space+       => { l.debug("whitespace"); l.p = l.te - 1; };  # Advance to end of matched whitespace
+        digit+       => {
+            l.debug("number");
+            l.p = l.te;
+            return Token{
+                Type: NUMBER,
+                Value: string(data[l.ts:l.te]),
+            }
+        };
+        '+'           => { l.debug("plus"); l.p = l.te; return Token{Type: PLUS, Value: "+"} };
     *|;
 }%%
 
@@ -33,17 +47,28 @@ func newLexer(input string) *Lexer {
     return l
 }
 
+var debugging = os.Getenv("DEBUG") != ""
+
+func (l Lexer) debug(msg string) {
+    if !debugging {
+        return
+    }
+
+    log.Printf("%s - %+v", msg, l)
+}
+
 func (l *Lexer) NextToken() Token {
     data := l.data
     p := l.p
     pe := l.pe
+    eof := pe
 
-    %% write exec;
-
-    if p == pe {
+    if p >= pe {
         return Token{Type: EOF}
     }
 
+    %% write exec;
+
     l.p = p + 1
-    return Token{Type: ILLEGAL, Value: string(data[p:p+1])}
+    return Token{Type: INVALID, Value: string(data[p:p+1])}
 } 
