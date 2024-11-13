@@ -32,6 +32,8 @@ import (
         '/'         => { l.debug("divide"); l.p = l.te; return Token{Type: DIVIDE, Value: "/"} };
         '+'         => { l.debug("plus"); l.p = l.te; return Token{Type: PLUS, Value: "+"} };
         '-'         => { l.debug("minus"); l.p = l.te; return Token{Type: MINUS, Value: "-"} };
+        '('         => { l.debug("lparen"); l.p = l.te; return Token{Type: LPAREN, Value: "("} };
+        ')'         => { l.debug("rparen"); l.p = l.te; return Token{Type: RPAREN, Value: ")"} };
     *|;
 }%%
 

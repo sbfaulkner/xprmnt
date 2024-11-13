@@ -5,7 +5,7 @@ import (
 )
 
 func TestLexer_NextToken(t *testing.T) {
-	input := "1 + 2 * 3 / 4 - 5"
+	input := "1 + 2 * 3 / (4 - 5)"
 	lexer := newLexer(input)
 
 	tests := []struct {
@@ -15,12 +15,14 @@ func TestLexer_NextToken(t *testing.T) {
 		{NUMBER, "1"},
 		{PLUS, "+"},
 		{NUMBER, "2"},
-        {MULTIPLY, "*"},
-        {NUMBER, "3"},
-        {DIVIDE, "/"},
-        {NUMBER, "4"},
-        {MINUS, "-"},
-        {NUMBER, "5"},
+		{MULTIPLY, "*"},
+		{NUMBER, "3"},
+		{DIVIDE, "/"},
+		{LPAREN, "("},
+		{NUMBER, "4"},
+		{MINUS, "-"},
+		{NUMBER, "5"},
+		{RPAREN, ")"},
 		{EOF, ""},
 	}
 

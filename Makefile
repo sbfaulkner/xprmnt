@@ -12,9 +12,5 @@ clean:
 	rm -f pkg/xprmnt/lexer.go
 
 .PHONY: test
-test:
-	go test ./...
-
-.PHONY: test-gen
-test-gen: generate
+test: generate
 	go test ./...

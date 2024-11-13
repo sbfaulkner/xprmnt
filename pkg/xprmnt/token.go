@@ -7,8 +7,8 @@ import (
 type TokenType int
 
 const (
-    EOF     TokenType = -1
-    INVALID TokenType = iota
+    INVALID TokenType = -1
+    EOF     TokenType = iota
     NUMBER
     MULTIPLY
     DIVIDE
@@ -39,6 +39,10 @@ func (tt TokenType) String() string {
 		return "PLUS"
 	case MINUS:
 		return "MINUS"
+	case LPAREN:
+		return "LPAREN"
+	case RPAREN:
+		return "RPAREN"
 	default:
 		panic(fmt.Errorf("Unknown token type: %d", tt))
 	}
