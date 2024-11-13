@@ -28,7 +28,10 @@ import (
                 Value: string(data[l.ts:l.te]),
             }
         };
-        '+'           => { l.debug("plus"); l.p = l.te; return Token{Type: PLUS, Value: "+"} };
+        '*'         => { l.debug("multiply"); l.p = l.te; return Token{Type: MULTIPLY, Value: "*"} };
+        '/'         => { l.debug("divide"); l.p = l.te; return Token{Type: DIVIDE, Value: "/"} };
+        '+'         => { l.debug("plus"); l.p = l.te; return Token{Type: PLUS, Value: "+"} };
+        '-'         => { l.debug("minus"); l.p = l.te; return Token{Type: MINUS, Value: "-"} };
     *|;
 }%%
 

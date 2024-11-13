@@ -10,10 +10,10 @@ const (
     EOF     TokenType = -1
     INVALID TokenType = iota
     NUMBER
-    PLUS
-    MINUS
     MULTIPLY
     DIVIDE
+    PLUS
+    MINUS
     LPAREN
     RPAREN
 )
@@ -31,8 +31,14 @@ func (tt TokenType) String() string {
 		return "EOF"
 	case NUMBER:
 		return "NUMBER"
+	case MULTIPLY:
+		return "MULTIPLY"
+	case DIVIDE:
+		return "DIVIDE"
 	case PLUS:
 		return "PLUS"
+	case MINUS:
+		return "MINUS"
 	default:
 		panic(fmt.Errorf("Unknown token type: %d", tt))
 	}
