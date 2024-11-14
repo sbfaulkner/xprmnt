@@ -6,6 +6,9 @@ up:
   - go:
       version: 1.22.9
       modules: true
+  - ruby
+  - bundler
+
 #   - packages:
 #       - golangci/tap/golangci-lint
 
