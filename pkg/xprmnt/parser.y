@@ -13,6 +13,7 @@ type Parser struct {
     result float64
     debug bool
     err error
+    parentheses int
 }
 
 func newParser(l *Lexer) *Parser {
@@ -88,10 +89,17 @@ func (p *Parser) Parse() (float64, error) {
     if p.debug {
         log.Printf("Starting parse...")
     }
+
     yyParse(p)
+
+    if p.parentheses > 0 {
+        p.err = fmt.Errorf("unclosed parenthesis")
+    }
+
     if p.debug {
         log.Printf("Parse complete. Result: %v, Error: %v", p.result, p.err)
     }
+
     return p.result, p.err
 }
 
@@ -102,19 +110,31 @@ func (p *Parser) Lex(lval *yySymType) int {
         log.Printf("Token: %v (Value: %q)", token.Type, token.Value)
     }
 
-    if token.Type == NUMBER {
+    switch token.Type {
+    case NUMBER:
         val, err := strconv.ParseFloat(token.Value, 64)
         if err != nil {
             p.Error(fmt.Sprintf("invalid number: %q", token.Value))
             return int(INVALID)
         }
         lval.num = val
+    
+    case LPAREN:
+        p.parentheses++
+
+    case RPAREN:
+        p.parentheses--
+        if p.parentheses < 0 {
+            p.err = fmt.Errorf("unexpected closing parenthesis")
+            return int(INVALID)
+        }
     }
     
     return int(token.Type)
 }
 
 func (p *Parser) Error(s string) {
-    // For now, just print the error
-    fmt.Printf("parse error: %s\n", s)
+    if p.err == nil {
+        p.err = fmt.Errorf("syntax error: %s", s)
+    }
 } 
