@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestLexer_NextToken(t *testing.T) {
+func TestLexer(t *testing.T) {
 	input := "1 + 2 * 3 / (4 - 5)"
 	lexer := newLexer(input)
 
@@ -28,7 +28,7 @@ func TestLexer_NextToken(t *testing.T) {
 
 	for i, tt := range tests {
 		token := lexer.NextToken()
-		
+
 		if token.Type != tt.expectedType {
 			t.Errorf("tests[%d] - wrong token type. expected=%v, got=%v",
 				i, tt.expectedType, token.Type)
@@ -40,4 +40,3 @@ func TestLexer_NextToken(t *testing.T) {
 		}
 	}
 }
-

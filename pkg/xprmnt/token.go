@@ -9,9 +9,6 @@ type TokenType int
 const (
 	EOF     TokenType = -1
 	INVALID TokenType = iota
-	MULTIPLY
-	DIVIDE
-	MINUS
 	LPAREN
 	RPAREN
 )

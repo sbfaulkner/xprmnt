@@ -4,12 +4,17 @@ import (
 	"testing"
 )
 
-func TestParser_Simple(t *testing.T) {
+func TestParser(t *testing.T) {
 	tests := []struct {
 		input    string
 		expected float64
 	}{
 		{"1 + 2", 3},
+		{"3 - 2", 1},
+		{"2 * 3", 6},
+		{"6 / 2", 3},
+		{"2 + 3 * 4", 14},
+		{"6 / 2 + 1", 4},
 	}
 
 	for i, tt := range tests {
