@@ -4,6 +4,7 @@ package xprmnt
 import (
     "fmt"
     "log"
+    "os"
     "strconv"
 )
 
@@ -14,9 +15,10 @@ type Parser struct {
 }
 
 func newParser(l *Lexer) *Parser {
+    debug := os.Getenv("DEBUG") != ""
     return &Parser{
         lexer: l,
-        debug: true,
+        debug: debug,
     }
 }
 

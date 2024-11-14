@@ -2,6 +2,7 @@ package xprmnt
 
 import (
     "log"
+    "os"
 )
 
 %%{
@@ -69,10 +70,11 @@ type Lexer struct {
 }
 
 func newLexer(input string) *Lexer {
+    debug := os.Getenv("DEBUG") != ""
     l := &Lexer{
         data: []byte(input),
         pe:   len(input),
-        debug: true,
+        debug: debug,
     }
     %% write init;
     return l

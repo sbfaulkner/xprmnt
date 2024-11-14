@@ -13,4 +13,4 @@ clean:
 
 .PHONY: test
 test: generate
-	go test ./...
+	go test ./... -v
