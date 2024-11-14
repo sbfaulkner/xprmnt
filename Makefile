@@ -23,3 +23,19 @@ clean:
 .PHONY: test
 test: generate
 	go test ./... -v
+
+.PHONY: shared
+shared: generate
+	mkdir -p lib
+	go build -buildmode=c-shared -o lib/libxprmnt.so ./pkg/libxprmnt
+
+.PHONY: install
+install: shared
+	cp lib/libxprmnt.so /usr/local/lib/
+	cp include/xprmnt.h /usr/local/include/
+
+.PHONY: test-c
+test-c: shared
+	mkdir -p bin
+	gcc -o bin/calc examples/calc/main.c -L./lib -I./include -lxprmnt
+	DYLD_LIBRARY_PATH=./lib ./bin/calc

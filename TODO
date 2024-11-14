@@ -2,6 +2,4 @@
 * Negative numbers (-5)
 * Positive numbers (+5)
 
-2. Call from C
-
-3. Call from Ruby via FFI
+2. Call from Ruby via FFI
