@@ -35,7 +35,7 @@ func Parse(expression string) (float64, error) {
 }
 
 %token <num> NUMBER
-%token PLUS MINUS MULTIPLY DIVIDE
+%token PLUS MINUS MULTIPLY DIVIDE LPAREN RPAREN
 
 %left PLUS MINUS
 %left MULTIPLY DIVIDE
@@ -45,29 +45,34 @@ func Parse(expression string) (float64, error) {
 %%
 
 expr:
-    NUMBER                  {
+    NUMBER {
         if yylex.(*Parser).debug { log.Printf("NUMBER: %v", $1) }
         $$ = $1;
         yylex.(*Parser).result = $$
     }
-    | expr PLUS expr    {
+    | expr PLUS expr {
         if yylex.(*Parser).debug { log.Printf("expr PLUS expr: %v + %v", $1, $3) }
         $$ = $1 + $3;
         yylex.(*Parser).result = $$
     }
-    | expr MINUS expr   {
+    | expr MINUS expr {
         if yylex.(*Parser).debug { log.Printf("expr MINUS expr: %v - %v", $1, $3) }
         $$ = $1 - $3;
         yylex.(*Parser).result = $$
     }
-    | expr MULTIPLY expr    {
+    | expr MULTIPLY expr {
         if yylex.(*Parser).debug { log.Printf("expr MULTIPLY expr: %v * %v", $1, $3) }
         $$ = $1 * $3;
         yylex.(*Parser).result = $$
     }
-    | expr DIVIDE expr   {
+    | expr DIVIDE expr {
         if yylex.(*Parser).debug { log.Printf("expr DIVIDE expr: %v / %v", $1, $3) }
         $$ = $1 / $3;
+        yylex.(*Parser).result = $$
+    }
+    | LPAREN expr RPAREN {
+        if yylex.(*Parser).debug { log.Printf("LPAREN expr RPAREN: (%v)", $2) }
+        $$ = $2;
         yylex.(*Parser).result = $$
     }
     ;

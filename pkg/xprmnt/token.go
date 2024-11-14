@@ -9,8 +9,6 @@ type TokenType int
 const (
 	EOF     TokenType = -1
 	INVALID TokenType = iota
-	LPAREN
-	RPAREN
 )
 
 type Token struct {
