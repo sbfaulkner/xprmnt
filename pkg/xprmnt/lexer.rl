@@ -19,21 +19,14 @@ import (
     write data;
 
     main := |*
-        space+       => { l.debug("whitespace"); l.p = l.te - 1; };  # Advance to end of matched whitespace
-        digit+       => {
-            l.debug("number");
-            l.p = l.te;
-            return Token{
-                Type: NUMBER,
-                Value: string(data[l.ts:l.te]),
-            }
-        };
-        '*'         => { l.debug("multiply"); l.p = l.te; return Token{Type: MULTIPLY, Value: "*"} };
-        '/'         => { l.debug("divide"); l.p = l.te; return Token{Type: DIVIDE, Value: "/"} };
-        '+'         => { l.debug("plus"); l.p = l.te; return Token{Type: PLUS, Value: "+"} };
-        '-'         => { l.debug("minus"); l.p = l.te; return Token{Type: MINUS, Value: "-"} };
-        '('         => { l.debug("lparen"); l.p = l.te; return Token{Type: LPAREN, Value: "("} };
-        ')'         => { l.debug("rparen"); l.p = l.te; return Token{Type: RPAREN, Value: ")"} };
+        space+      => { l.p = l.te - 1; };
+        digit+      => { l.p = l.te; return Token{Type: NUMBER, Value: string(data[l.ts:l.te])} };
+        '*'         => { l.p = l.te; return Token{Type: MULTIPLY, Value: "*"} };
+        '/'         => { l.p = l.te; return Token{Type: DIVIDE, Value: "/"} };
+        '+'         => { l.p = l.te; return Token{Type: PLUS, Value: "+"} };
+        '-'         => { l.p = l.te; return Token{Type: MINUS, Value: "-"} };
+        '('         => { l.p = l.te; return Token{Type: LPAREN, Value: "("} };
+        ')'         => { l.p = l.te; return Token{Type: RPAREN, Value: ")"} };
     *|;
 }%%
 
