@@ -1,3 +1,4 @@
 pkg/xprmnt/lexer.go
 pkg/xprmnt/parser.go
 y.output
+bin/

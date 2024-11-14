@@ -1,0 +1,13 @@
+1. Add better error handling for cases like:
+* Invalid expressions like "1 + + 2"
+* Invalid expressions like "1 2"
+
+2. Add support for unary operators:
+* Negative numbers (-5)
+* Positive numbers (+5)
+
+3. Call from external go command line
+
+4. Call from C
+
+5. Call from Ruby via FFI
