@@ -2,7 +2,6 @@ package xprmnt
 
 import (
     "log"
-    "os"
 )
 
 %%{
@@ -19,14 +18,46 @@ import (
     write data;
 
     main := |*
-        space+      => { l.p = l.te - 1; };
-        digit+      => { l.p = l.te; return Token{Type: NUMBER, Value: string(data[l.ts:l.te])} };
-        '*'         => { l.p = l.te; return Token{Type: MULTIPLY, Value: "*"} };
-        '/'         => { l.p = l.te; return Token{Type: DIVIDE, Value: "/"} };
-        '+'         => { l.p = l.te; return Token{Type: PLUS, Value: "+"} };
-        '-'         => { l.p = l.te; return Token{Type: MINUS, Value: "-"} };
-        '('         => { l.p = l.te; return Token{Type: LPAREN, Value: "("} };
-        ')'         => { l.p = l.te; return Token{Type: RPAREN, Value: ")"} };
+        space+      => {
+            l.p = l.te - 1;
+            if l.debug { log.Printf("Skipping whitespace") }
+        };
+        digit+      => {
+            l.p = l.te;
+            token := Token{Type: NUMBER, Value: string(data[l.ts:l.te])}
+            if l.debug { log.Printf("Found number: %s", token.Value) }
+            return token
+        };
+        '*'         => {
+            l.p = l.te;
+            if l.debug { log.Printf("Found multiply") }
+            return Token{Type: MULTIPLY, Value: "*"}
+        };
+        '/'         => {
+            l.p = l.te;
+            if l.debug { log.Printf("Found divide") }
+            return Token{Type: DIVIDE, Value: "/"}
+        };
+        '+'         => {
+            l.p = l.te;
+            if l.debug { log.Printf("Found plus") }
+            return Token{Type: PLUS, Value: "+"}
+        };
+        '-'         => {
+            l.p = l.te;
+            if l.debug { log.Printf("Found minus") }
+            return Token{Type: MINUS, Value: "-"}
+        };
+        '('         => {
+            l.p = l.te;
+            if l.debug { log.Printf("Found lparen") }
+            return Token{Type: LPAREN, Value: "("}
+        };
+        ')'         => {
+            l.p = l.te;
+            if l.debug { log.Printf("Found rparen") }
+            return Token{Type: RPAREN, Value: ")"}
+        };
     *|;
 }%%
 
@@ -34,25 +65,17 @@ type Lexer struct {
     data []byte
     p, pe, cs int
     ts, te, act int
+    debug bool
 }
 
 func newLexer(input string) *Lexer {
     l := &Lexer{
         data: []byte(input),
         pe:   len(input),
+        debug: true,
     }
     %% write init;
     return l
-}
-
-var debugging = os.Getenv("DEBUG") != ""
-
-func (l Lexer) debug(msg string) {
-    if !debugging {
-        return
-    }
-
-    log.Printf("%s - %+v", msg, l)
 }
 
 func (l *Lexer) NextToken() Token {

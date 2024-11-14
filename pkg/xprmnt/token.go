@@ -7,20 +7,18 @@ import (
 type TokenType int
 
 const (
-    INVALID TokenType = -1
-    EOF     TokenType = iota
-    NUMBER
-    MULTIPLY
-    DIVIDE
-    PLUS
-    MINUS
-    LPAREN
-    RPAREN
+	EOF     TokenType = -1
+	INVALID TokenType = iota
+	MULTIPLY
+	DIVIDE
+	MINUS
+	LPAREN
+	RPAREN
 )
 
 type Token struct {
-    Type  TokenType
-    Value string
+	Type  TokenType
+	Value string
 }
 
 func (tt TokenType) String() string {
@@ -44,6 +42,6 @@ func (tt TokenType) String() string {
 	case RPAREN:
 		return "RPAREN"
 	default:
-		panic(fmt.Errorf("Unknown token type: %d", tt))
+		panic(fmt.Errorf("unknown token type: %d", tt))
 	}
 }
