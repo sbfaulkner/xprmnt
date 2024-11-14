@@ -19,6 +19,7 @@ func TestParser(t *testing.T) {
 		{"2 * (3 + 4)", 14},       // Without parentheses this would be 10
 		{"(1 + 2) * (3 + 4)", 21}, // Without parentheses this would be 11
 		{"10 / (2 + 3)", 2},       // Without parentheses this would be 8
+		{"1 + 2 ", 3},             // Trailing whitespace should be ok
 	}
 
 	for i, tt := range tests {

@@ -87,11 +87,18 @@ func (l *Lexer) NextToken() Token {
     eof := pe
 
     if p >= pe {
+        if l.debug { log.Printf("EOF") }
         return Token{Type: EOF}
     }
 
     %% write exec;
 
+    if l.p >= l.pe {
+        if l.debug { log.Printf("EOF") }
+        return Token{Type: EOF}
+    }
+
+    if l.debug { log.Printf("Invalid token: %v", data[p:p+1]) }
     l.p = p + 1
     return Token{Type: INVALID, Value: string(data[p:p+1])}
 } 
