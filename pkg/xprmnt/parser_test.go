@@ -100,3 +100,34 @@ func TestParser_ParenthesesErrors(t *testing.T) {
 		}
 	}
 }
+
+func TestParser_InvalidExpression(t *testing.T) {
+	tests := []struct {
+		input       string
+		expectedErr string
+	}{
+		{"1 + + 2", "invalid expression"},
+		{"1 2", "invalid expression"},
+	}
+
+	for i, tt := range tests {
+		_, err := Parse(tt.input)
+
+		if tt.expectedErr == "" && err != nil {
+			t.Errorf("tests[%d] - unexpected error for input %q: %v",
+				i, tt.input, err)
+			continue
+		}
+
+		if tt.expectedErr != "" && err == nil {
+			t.Errorf("tests[%d] - expected error for input %q, got none",
+				i, tt.input)
+			continue
+		}
+
+		if tt.expectedErr != "" && err != nil && err.Error() != tt.expectedErr {
+			t.Errorf("tests[%d] - wrong error message for input %q. expected=%q, got=%q",
+				i, tt.input, tt.expectedErr, err.Error())
+		}
+	}
+}

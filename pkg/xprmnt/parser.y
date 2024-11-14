@@ -133,8 +133,12 @@ func (p *Parser) Lex(lval *yySymType) int {
     return int(token.Type)
 }
 
-func (p *Parser) Error(s string) {
+func (p *Parser) Error(msg string) {
     if p.err == nil {
-        p.err = fmt.Errorf("syntax error: %s", s)
+        if msg == "syntax error" {
+            p.err = fmt.Errorf("invalid expression")
+        } else {
+            p.err = fmt.Errorf(msg)
+        }
     }
-} 
+}
