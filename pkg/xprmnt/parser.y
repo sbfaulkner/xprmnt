@@ -12,6 +12,7 @@ type Parser struct {
     lexer *Lexer
     result float64
     debug bool
+    err error
 }
 
 func newParser(l *Lexer) *Parser {
@@ -67,6 +68,10 @@ expr:
     }
     | expr DIVIDE expr {
         if yylex.(*Parser).debug { log.Printf("expr DIVIDE expr: %v / %v", $1, $3) }
+        if $3 == 0 {
+            yylex.(*Parser).err = fmt.Errorf("divide by zero")
+            return -1
+        }
         $$ = $1 / $3;
         yylex.(*Parser).result = $$
     }
@@ -85,9 +90,9 @@ func (p *Parser) Parse() (float64, error) {
     }
     yyParse(p)
     if p.debug {
-        log.Printf("Parse complete. Result: %v", p.result)
+        log.Printf("Parse complete. Result: %v, Error: %v", p.result, p.err)
     }
-    return p.result, nil
+    return p.result, p.err
 }
 
 func (p *Parser) Lex(lval *yySymType) int {

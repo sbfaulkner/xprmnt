@@ -37,3 +37,31 @@ func TestParser(t *testing.T) {
 		}
 	}
 }
+
+func TestParser_DivideByZero(t *testing.T) {
+	tests := []struct {
+		input       string
+		expectError bool
+	}{
+		{"1 / 0", true},
+		{"2 / (1 - 1)", true},
+		{"1 / 2", false},
+	}
+
+	for i, tt := range tests {
+		_, err := Parse(tt.input)
+
+		if tt.expectError && err == nil {
+			t.Errorf("tests[%d] - expected error for input %q, got none", i, tt.input)
+		}
+
+		if !tt.expectError && err != nil {
+			t.Errorf("tests[%d] - unexpected error for input %q: %v", i, tt.input, err)
+		}
+
+		if tt.expectError && err != nil && err.Error() != "divide by zero" {
+			t.Errorf("tests[%d] - wrong error message. expected=%q, got=%q",
+				i, "divide by zero", err.Error())
+		}
+	}
+}
