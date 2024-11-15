@@ -18,7 +18,7 @@ pkg/xprmnt/lexer.go: pkg/xprmnt/lexer.rl
 
 .PHONY: clean
 clean:
-	rm -f pkg/xprmnt/lexer.go pkg/xprmnt/parser.go bin/xprmnt
+	rm -f pkg/xprmnt/lexer.go pkg/xprmnt/parser.go bin/xprmnt bin/test-c
 
 .PHONY: test
 test: generate
@@ -37,5 +37,9 @@ install: shared
 .PHONY: test-c
 test-c: shared
 	mkdir -p bin
-	gcc -o bin/calc examples/calc/main.c -L./lib -I./include -lxprmnt
-	DYLD_LIBRARY_PATH=./lib ./bin/calc
+	gcc -o bin/test-c examples/c/test.c -L./lib -I./include -lxprmnt
+	DYLD_LIBRARY_PATH=./lib ./bin/test-c
+
+.PHONY: test-ruby
+test-ruby: shared
+	DYLD_LIBRARY_PATH=./lib ruby examples/ruby/test.rb
