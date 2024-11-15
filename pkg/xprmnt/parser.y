@@ -41,7 +41,7 @@ func Parse(expression string) (float64, error) {
 
 %left PLUS MINUS
 %left MULTIPLY DIVIDE
-%right UMINUS
+%right UMINUS UPLUS
 
 %type <num> expr
 
@@ -62,6 +62,10 @@ expr:
     | MINUS expr %prec UMINUS {
         if yylex.(*Parser).debug { log.Printf("MINUS expr: -%v", $2) }
         $$ = -$2
+    }
+    | PLUS expr %prec UPLUS {
+        if yylex.(*Parser).debug { log.Printf("PLUS expr: +%v", $2) }
+        $$ = $2
     }
     | expr PLUS expr {
         if yylex.(*Parser).debug { log.Printf("expr PLUS expr: %v + %v", $1, $3) }

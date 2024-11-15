@@ -25,7 +25,7 @@ tests = [
   TestCase.new("2 + 3 * 4", 14.0, false),      # Operator precedence
   TestCase.new("(2 + 3) * 4", 20.0, false),    # Parentheses
   TestCase.new("10 / 2 + 5", 10.0, false),     # Left-to-right evaluation
-  TestCase.new("1 + + 2", 0.0, true),          # Invalid expression
+  TestCase.new("1 + * 2", 0.0, true),          # Invalid expression
   TestCase.new("42", 42.0, false),             # Single number
   TestCase.new("1 2", 0.0, true),              # Invalid expression
   TestCase.new("1 / 0", 0.0, true),            # Division by zero
@@ -33,7 +33,14 @@ tests = [
   TestCase.new("-2 + 3", 1.0, false),          # Negation with addition
   TestCase.new("2 * -3", -6.0, false),         # Negation with multiplication
   TestCase.new("-(2 + 3)", -5.0, false),       # Negation of parenthesized expression
-  TestCase.new("-(-5)", 5.0, false)            # Double negation
+  TestCase.new("-(-5)", 5.0, false),           # Double negation
+  TestCase.new("+5", 5.0, false),              # Simple positive
+  TestCase.new("+2 + 3", 5.0, false),          # Positive with addition
+  TestCase.new("2 * +3", 6.0, false),          # Positive with multiplication
+  TestCase.new("+(2 + 3)", 5.0, false),        # Positive of parenthesized expression
+  TestCase.new("+(-5)", -5.0, false),          # Positive of negative
+  TestCase.new("-+5", -5.0, false),            # Mixed unary operators
+  TestCase.new("+(-2 * 3)", -6.0, false)       # Complex expression with unary plus
 ]
 
 failed = 0

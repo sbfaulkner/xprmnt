@@ -26,6 +26,13 @@ func TestParser(t *testing.T) {
 		{"-(2 + 3)", -5},          // Negation of parenthesized expression
 		{"-(-5)", 5},              // Double negation
 		{"2 + -3 * 4", -10},       // Negation with operator precedence
+		{"+5", 5},                 // Simple positive
+		{"+2 + 3", 5},             // Positive with addition
+		{"2 * +3", 6},             // Positive with multiplication
+		{"+(2 + 3)", 5},           // Positive of parenthesized expression
+		{"+(-5)", -5},             // Positive of negative
+		{"-+5", -5},               // Mixed unary operators
+		{"+(-2 * 3)", -6},         // Complex expression with unary plus
 	}
 
 	for i, tt := range tests {
@@ -112,7 +119,7 @@ func TestParser_InvalidExpression(t *testing.T) {
 		input       string
 		expectedErr string
 	}{
-		{"1 + + 2", "invalid expression"},
+		{"1 + * 2", "invalid expression"},
 		{"1 2", "invalid expression"},
 	}
 

@@ -14,7 +14,7 @@ int main() {
         {"2 + 3 * 4", 14.0, false},      // Operator precedence
         {"(2 + 3) * 4", 20.0, false},    // Parentheses
         {"10 / 2 + 5", 10.0, false},     // Left-to-right evaluation
-        {"1 + + 2", 0.0, true},          // Invalid expression
+        {"1 + * 2", 0.0, true},          // Invalid expression
         {"42", 42.0, false},             // Single number
         {"1 2", 0.0, true},              // Invalid expression
         {"1 / 0", 0.0, true},            // Division by zero
@@ -22,7 +22,14 @@ int main() {
         {"-2 + 3", 1.0, false},          // Negation with addition
         {"2 * -3", -6.0, false},         // Negation with multiplication
         {"-(2 + 3)", -5.0, false},       // Negation of parenthesized expression
-        {"-(-5)", 5.0, false}            // Double negation
+        {"-(-5)", 5.0, false},           // Double negation
+        {"+5", 5.0, false},              // Simple positive
+        {"+2 + 3", 5.0, false},          // Positive with addition
+        {"2 * +3", 6.0, false},          // Positive with multiplication
+        {"+(2 + 3)", 5.0, false},        // Positive of parenthesized expression
+        {"+(-5)", -5.0, false},          // Positive of negative
+        {"-+5", -5.0, false},            // Mixed unary operators
+        {"+(-2 * 3)", -6.0, false}       // Complex expression with unary plus
     };
     
     int num_tests = sizeof(tests) / sizeof(tests[0]);
