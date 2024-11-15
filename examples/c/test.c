@@ -17,7 +17,12 @@ int main() {
         {"1 + + 2", 0.0, true},          // Invalid expression
         {"42", 42.0, false},             // Single number
         {"1 2", 0.0, true},              // Invalid expression
-        {"1 / 0", 0.0, true}             // Division by zero
+        {"1 / 0", 0.0, true},            // Division by zero
+        {"-5", -5.0, false},             // Simple negation
+        {"-2 + 3", 1.0, false},          // Negation with addition
+        {"2 * -3", -6.0, false},         // Negation with multiplication
+        {"-(2 + 3)", -5.0, false},       // Negation of parenthesized expression
+        {"-(-5)", 5.0, false}            // Double negation
     };
     
     int num_tests = sizeof(tests) / sizeof(tests[0]);

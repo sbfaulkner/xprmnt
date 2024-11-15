@@ -20,6 +20,12 @@ func TestParser(t *testing.T) {
 		{"(1 + 2) * (3 + 4)", 21}, // Without parentheses this would be 11
 		{"10 / (2 + 3)", 2},       // Without parentheses this would be 8
 		{"1 + 2 ", 3},             // Trailing whitespace should be ok
+		{"-5", -5},                // Simple negation
+		{"-2 + 3", 1},             // Negation with addition
+		{"2 * -3", -6},            // Negation with multiplication
+		{"-(2 + 3)", -5},          // Negation of parenthesized expression
+		{"-(-5)", 5},              // Double negation
+		{"2 + -3 * 4", -10},       // Negation with operator precedence
 	}
 
 	for i, tt := range tests {

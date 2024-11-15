@@ -20,7 +20,7 @@ class TestCase
   end
 end
 
-# Define test cases (same as C example)
+# Define test cases
 tests = [
   TestCase.new("2 + 3 * 4", 14.0, false),      # Operator precedence
   TestCase.new("(2 + 3) * 4", 20.0, false),    # Parentheses
@@ -28,7 +28,12 @@ tests = [
   TestCase.new("1 + + 2", 0.0, true),          # Invalid expression
   TestCase.new("42", 42.0, false),             # Single number
   TestCase.new("1 2", 0.0, true),              # Invalid expression
-  TestCase.new("1 / 0", 0.0, true)             # Division by zero
+  TestCase.new("1 / 0", 0.0, true),            # Division by zero
+  TestCase.new("-5", -5.0, false),             # Simple negation
+  TestCase.new("-2 + 3", 1.0, false),          # Negation with addition
+  TestCase.new("2 * -3", -6.0, false),         # Negation with multiplication
+  TestCase.new("-(2 + 3)", -5.0, false),       # Negation of parenthesized expression
+  TestCase.new("-(-5)", 5.0, false)            # Double negation
 ]
 
 failed = 0
