@@ -1,5 +1,5 @@
 .PHONY: all
-all: generate build
+all: generate build test test-c test-ruby
 
 .PHONY: build
 build: bin/xprmnt
