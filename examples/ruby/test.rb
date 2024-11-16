@@ -4,7 +4,9 @@ require 'ffi'
 
 module Xprmnt
   extend FFI::Library
-  ffi_lib File.expand_path('../../lib/libxprmnt.so', __dir__)
+  CURRENT_OS = RbConfig::CONFIG['host_os'].include?('darwin') ? 'darwin' : 'linux'
+  SHARED_LIBRARY_EXT = RbConfig::CONFIG['host_os'].include?('darwin') ? 'dylib' : 'so'
+  ffi_lib File.expand_path("../../dist/shared-#{CURRENT_OS}-#{RbConfig::CONFIG['host_cpu']}/libxprmnt.#{SHARED_LIBRARY_EXT}", __dir__)
 
   # Define the function signature to match our C API
   attach_function :Parse, [:string, :pointer], :double
